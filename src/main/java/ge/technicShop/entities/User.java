@@ -32,6 +32,10 @@ public class User implements UserDetails {
     @Column(name = "ROLE")
     private Role role;
 
+    // კავშირი კალათასთან
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Cart cart;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return role != null ? role.getAuthorities() : List.of();
@@ -61,4 +65,12 @@ public class User implements UserDetails {
     public void setPassword(String password) { this.password = password; }
     public Role getRole() { return role; }
     public void setRole(Role role) { this.role = role; }
+
+    public Cart getCart() {
+        return cart;
+    }
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
+    }
 }
