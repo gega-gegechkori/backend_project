@@ -4,7 +4,7 @@ import ge.technicShop.dto.AddProduct;
 import ge.technicShop.dto.Paging;
 import ge.technicShop.dto.ProductShortInfo;
 import ge.technicShop.dto.SearchProduct;
-import ge.technicShop.entities.Category;
+import org.springframework.data.domain.Sort;
 import ge.technicShop.entities.Product;
 import ge.technicShop.repositories.ProductRepository;
 import ge.technicShop.utils.GeneralUtil;
@@ -58,5 +58,12 @@ public class ProductService {
             return new ProductShortInfo(p.getName(), p.getPrice(), p.getImageUrl());
         }
         throw new ResourceNotFoundException("PRODUCT_NOT_FOUND");
+    }
+    public List<Product> getAllProducts(String sortBy, String direction) {
+        Sort sort = direction.equalsIgnoreCase("desc")
+                ? Sort.by(sortBy).descending()
+                : Sort.by(sortBy).ascending();
+
+        return productRepository.findAll(sort);
     }
 }

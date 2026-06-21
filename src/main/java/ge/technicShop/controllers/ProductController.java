@@ -23,14 +23,20 @@ public class ProductController {
 
     @GetMapping("/all")
     @PreAuthorize("hasAuthority('product:read')")
-    public List<Product> getAll() { return productService.getAll(); }
+    public List<Product> getAllProducts(
+            @RequestParam(defaultValue = "price", required = false) String sortBy,
+            @RequestParam(defaultValue = "asc", required = false) String direction) {
+        return productService.getAllProducts(sortBy, direction);
+    }
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('product:read')")
-    public Product getById(@PathVariable Long id) { return productService.getById(id); }
+    public Product getById(@PathVariable Long id) {
+        return productService.getById(id);
+    }
 
     @PostMapping("/add")
-    //@PreAuthorize("hasAuthority('product:add')")
+    @PreAuthorize("hasAuthority('product:add')")
     public Product add(@RequestBody AddProduct addProduct) throws Exception {
         return productService.saveProduct(addProduct, null);
     }
